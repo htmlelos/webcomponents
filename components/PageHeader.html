@@ -4,22 +4,26 @@
       background-color: #333;
       color: gold;
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-around;
       align-items: center;
+      padding: 0.25em;
     }
     img {
       height: 64px;
       width: 64px;
-      padding: 1em;
     }
     h1 {
       padding: 0.25em;
       color: #fff;
+      flex-basis: 50%;
+      display: flex;
+      justify-content: center;
     }
   </style>
   <header>
     <img id="logo" src="#" alt="Logo" />
     <h1 id="titulo"></h1>
+    <slot></slot>
   </header>
 </template>
 <script>
@@ -56,19 +60,17 @@
 
     parseAttributes() {
       if (this.hasAttribute('logo')) {
-        console.log('LOGO: ', this.getAttribute('logo'));
         this._logo = this.getAttribute('logo');
         this.shadowRoot.querySelector('#logo').src = this._logo;
       }
       if (this.hasAttribute('titulo')) {
-        console.log('TITULO: ', this.getAttribute('titulo'));
         this._titulo = this.getAttribute('titulo')
         this.shadowRoot.querySelector('#titulo').innerHTML= this._titulo;
       }
     }
 
     connectedCallback() {
-      this.root = this
+      this.root = this;
       this.setProperties();
       this.parseAttributes();
     }
@@ -78,5 +80,5 @@
     }
 
   }
-  customElements.define('page-header', PageHeader)
+  customElements.define('page-header', PageHeader);
 </script>

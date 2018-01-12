@@ -1,0 +1,19 @@
+<template>
+  <div>
+    <slot></slot>
+  </div>
+</template>
+<script>
+  const template = document.currentScript.ownerDocument.querySelector('template').content;
+
+  class HeaderMenu extends HTMLElement {
+    constructor() {
+      super();
+      this.attachShadow({mode:'open'});
+      const content = document.importNode(template, true);
+      this.shadowRoot.appendChild(content);
+    }            
+  }  
+
+  customElements.define('header-menu', HeaderMenu);
+</script>

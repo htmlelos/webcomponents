@@ -1,0 +1,52 @@
+<template>
+  <style>
+    img {
+      width: 32px;
+      height: 32px;
+    }
+    img:hover {
+      background-color: #ffffff;
+    }
+  </style>
+  <img id="icon" src="#" alt="Menu">
+</template>
+<script>
+  const template1 = document.currentScript.ownerDocument.querySelector('template').content;
+
+  class IconoMenu extends HTMLElement {
+    constructor() {
+      super()
+      this.attachShadow({mode:'open'});
+      const content = document.importNode(template1, true);
+      this.shadowRoot.appendChild(content);
+    }
+
+    get url() {
+      return this._url;
+    }
+
+    set url(url) {
+      this._url = url;
+    }
+
+    setProperties() {
+      this._url = '';
+    }
+
+    parseAttributes() {
+      if (this.hasAttribute('url')) {
+        this.url = this.getAttribute('url');
+        console.log(this.shadowRoot.querySelector('#icon'));
+        this.shadowRoot.querySelector('#icon').src = this._url;
+      }
+    }
+
+    connectedCallback() {
+      this.root = this;
+      this.setProperties();
+      this.parseAttributes();
+    }
+  }
+
+  customElements.define('icono-menu', IconoMenu);
+</script>
