@@ -10,14 +10,16 @@
     img {
       height: 64px;
       width: 64px;
+      padding: 1em;
     }
     h1 {
       padding: 0.25em;
+      color: #fff;
     }
   </style>
   <header>
-    <img class="logo" src="#" alt="Logo" />
-    <h1>Titulo</h1>
+    <img id="logo" src="#" alt="Logo" />
+    <h1 id="titulo"></h1>
   </header>
 </template>
 <script>
@@ -28,26 +30,53 @@
       super();
       this.attachShadow({mode:'open'});
       const content = document.importNode(template, true)
-      console.log('CONTENT: ',content.querySelector('.logo'));
-      content.querySelector('.logo').src = 'images/logo.svg';
       this.shadowRoot.appendChild(content);
     }
     
     get logo() {
-      return this.logo;
+      return this._logo;
     }
     
-    set logo(url) {
-      this.logo = url;
+    set logo(logo) {
+      this._logo = logo;
+    }
+
+    get titulo() {
+      return this._titulo;
     }
     
+    set titulo(titulo) {
+      this._titulo = titulo;
+    }
+
+    setProperties() {
+      this._logo = '';
+      this._titulo = '';
+    }
+
+    parseAttributes() {
+      if (this.hasAttribute('logo')) {
+        console.log('LOGO: ', this.getAttribute('logo'));
+        this._logo = this.getAttribute('logo');
+        this.shadowRoot.querySelector('#logo').src = this._logo;
+      }
+      if (this.hasAttribute('titulo')) {
+        console.log('TITULO: ', this.getAttribute('titulo'));
+        this._titulo = this.getAttribute('titulo')
+        this.shadowRoot.querySelector('#titulo').innerHTML= this._titulo;
+      }
+    }
+
     connectedCallback() {
-      console.log('CONECTED ELEMENT', this.shadowRoot.querySelector('.logo'));
+      this.root = this
+      this.setProperties();
+      this.parseAttributes();
     }
 
     disconnectedCallback() {
       console.log('DISCONECTED ELEMENT');
     }
+
   }
   customElements.define('page-header', PageHeader)
 </script>
