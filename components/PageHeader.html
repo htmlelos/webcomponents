@@ -1,0 +1,53 @@
+<template>
+  <style>
+    header {
+      background-color: #333;
+      color: gold;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    img {
+      height: 64px;
+      width: 64px;
+    }
+    h1 {
+      padding: 0.25em;
+    }
+  </style>
+  <header>
+    <img class="logo" src="#" alt="Logo" />
+    <h1>Titulo</h1>
+  </header>
+</template>
+<script>
+  const template = document.currentScript.ownerDocument.querySelector('template').content;
+
+  class PageHeader extends HTMLElement {
+    constructor() {
+      super();
+      this.attachShadow({mode:'open'});
+      const content = document.importNode(template, true)
+      console.log('CONTENT: ',content.querySelector('.logo'));
+      content.querySelector('.logo').src = 'images/logo.svg';
+      this.shadowRoot.appendChild(content);
+    }
+    
+    get logo() {
+      return this.logo;
+    }
+    
+    set logo(url) {
+      this.logo = url;
+    }
+    
+    connectedCallback() {
+      console.log('CONECTED ELEMENT', this.shadowRoot.querySelector('.logo'));
+    }
+
+    disconnectedCallback() {
+      console.log('DISCONECTED ELEMENT');
+    }
+  }
+  customElements.define('page-header', PageHeader)
+</script>
